@@ -27,22 +27,29 @@ function populateSketchContainer(value) {
 }
 
 function mark(event) {
-    event.target.style.backgroundColor = '#3c3c41'
+    // if (mode == 'Regular Mode') {
+    //     event.target.style.backgroundColor = '#3c3c41';
+    // }
+    
+    event.target.style.backgroundColor = '#3c3c41';
 }
 
-function startDrawing() {
+function startDrawing(mode) {
     let pixels = document.querySelectorAll('.pixel');
     pixels.forEach(pixel => {
         pixel.addEventListener('mouseover', mark);
     });
 }
 
-function stopDrawing() {
+function stopDrawing(mode) {
     let pixels = document.querySelectorAll('.pixel');
     pixels.forEach(pixel => {
         pixel.removeEventListener('mouseover', mark);
     });
 }
+
+
+
 
 // Make sure the page loads with "pixels" in the Etch-a-Sketch
 populateSketchContainer(document.querySelector('.slider').value)
@@ -58,7 +65,14 @@ document.querySelector(".slider").oninput = function() {
     populateSketchContainer(value);
 };
 
+let mode = 'Regular Mode';
 // Allow / disallow drawing
-document.body.onmousedown = () => (startDrawing());
-document.body.onmouseup = () => (stopDrawing());
+document.body.onmousedown = () => (startDrawing(mode));
+document.body.onmouseup = () => (stopDrawing(mode));
 
+
+
+
+
+// TODO pass a parameter into mark() that sets the specific type of mark to use.
+// TODO clean up the code and use a main function.
