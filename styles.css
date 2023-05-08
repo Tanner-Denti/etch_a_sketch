@@ -1,0 +1,126 @@
+body {
+    height: 100vh;
+    background-color: #F1F2F5;
+    font-family: 'Comme', 'Roboto', sans-serif;
+    color: #3c3c41;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 4.4em;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.main {
+    margin-top: 120px;
+    display: flex;
+}
+
+.sketch-container {
+    height: 500px;
+    width: 500px;
+    background-color: white;
+    box-shadow: 0px 5px 10px 0px #cecece;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.options-container {
+    margin-top: 30px;
+    margin-left: 50px;
+    padding: 0;
+    text-align: center;
+}
+
+img {
+    height: 250px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding-bottom: 20px;
+}
+
+button {
+    background-color: white;
+    width: 200px;
+    height: 45px;
+    border: none;
+    box-shadow: 0px 5px 10px 0px #cecece;
+    border-radius: 5px;
+    color: #3c3c41;
+    font-size: 20px;
+}
+
+button:hover {
+    background-color: #3c3c41;
+    color: white;
+}
+
+.slide-container {
+    align-self: end;
+    display: flex;
+    align-items: center;
+    height: 350px;
+    margin-bottom: 45px;
+}
+
+.slider {
+    transform: rotate(270deg);
+    margin: 30px;
+    width: 490px;
+    height: 30px;
+    margin-right: -170px;
+    margin-bottom: 85px;
+
+    background: linear-gradient(to right, #3c3c41 0%, #3c3c41 16%, #fff 16%, #fff 100%);
+    border: none;
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    width: 0px;
+    -webkit-appearance: none;
+    height: 0px;
+  }
+
+
+.slider-label {
+    padding: 0;
+    margin-right: -240px;
+    margin-bottom: 50px;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-weight: 800;
+}
+
+footer {
+    margin-top: auto;
+    align-self: center;
+}
+
+footer {
+    color: #3c3c41;
+    font-size: 18px;
+}
+
+footer > a {
+    color: #3c3c41;
+}
+
+.test {
+    background-color: red;
+    height: 30px;
+    border-style: solid;
+
+}

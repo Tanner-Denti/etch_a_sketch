@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etch-a-sketch</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comme:wght@400;600;700;800;900&family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+  
+  <div class="main">
+    <div class="slide-container">
+      <div class="slider-label">16 x 16</div>
+      <input type="range" min="1" max="100" value="16" class="slider" id="myRange">
+    </div>
+
+    <div class="left-flex">
+      <h1>Etch-a-Sketch</h1>
+      <div class="sketch-container"></div>
+    </div>
+    
+    <div class="options-container">
+      <img src="./logo.png" alt="Abstract image">
+      <ul>
+        <li><button>Regular Mode</button></li>
+        <li><button>Brush Mode</button></li>
+        <li><button>Sticker Mode</button></li>
+        <li><button>Eraser</button></li>
+        <li><button>Clear</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    <a href="https://www.freepik.com/free-vector/colorful-letter-gradient-logo-design_40158753.htm#query=free%20logo%20png&position=8&from_view=search&track=ais">Image by soepratman</a> on Freepik
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
