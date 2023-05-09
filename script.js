@@ -1,8 +1,6 @@
 // Helper function to remove the nodes inside of a div
 function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
+    parent.innerHTML = '';
 }
 
 // Adds the proper number of "pixel" divs based on a value
@@ -70,13 +68,32 @@ document.querySelector(".slider").oninput = function() {
 // document.body.onmousedown = () => (startDrawing(mode));
 // document.body.onmouseup = () => (stopDrawing(mode));
 
+function getRandomNumber(Max) {
+    return Math.floor(Math.random() * Max);
+}
+
+function getRandomColor() {
+    const r = getRandomNumber(255)
+    const g = getRandomNumber(255)
+    const b = getRandomNumber(255)
+    
+    return `rgb(${r}, ${g}, ${b})`
+}
+
 function mark(e) {
-    if (mode == 'Regular Mode') {
+    if (mode == document.querySelector('.regular-btn').innerText) {
         e.target.style.backgroundColor = '#3c3c41';
-    } else if (mode == 'Brush Mode') {
+        e.target.style.opacity = '1';
+    } else if (mode == document.querySelector('.brush-btn').innerText) {
         e.target.style.backgroundColor = '#3c3c41';
-        e.target.style.opacity = '0.3';
-    }
+        e.target.style.opacity = '0.1';
+    } else if (mode == document.querySelector('.color-btn').innerText) {
+        e.target.style.backgroundColor = getRandomColor();
+        e.target.style.opacity = '1';
+    } else if (mode == document.querySelector('.eraser-btn').innerText) {
+        e.target.style.backgroundColor = 'white';
+        e.target.style.opacity = '1';
+    } 
 }
 
 function start() {
@@ -93,7 +110,68 @@ function stop () {
     });
 }
 
-let mode = 'Brush Mode';
+function clear() {
+    let pixels = document.querySelectorAll('.pixel');
+    pixels.forEach(pixel => {
+        pixel.style.backgroundColor = 'white';
+        pixel.style.opacity = '1';
+    });
+}
+
+// Default to regular mode
+let mode = 'Regular Mode';
+const regularBtn = document.querySelector(".regular-btn")
+regularBtn.style.backgroundColor = '#3c3c41';
+regularBtn.style.color = 'white';
+
+// const regularBtn = document.querySelector(".regular-btn");
+// const brushBtn = document.querySelector(".brush-btn");
+// const stickerBtn = document.querySelector(".sticker-btn");
+// const eraserBtn = document.querySelector(".eraser-btn");
+// const clearBtn = document.querySelector(".clear-btn");
+
+// regularBtn.addEventListener('click', (e) => {
+//     let buttons = document.querySelectorAll('button');
+//     buttons.forEach(button => {
+//         button.style.backgroundColor = 'white';
+//     })
+//     e.target.style.backgroundColor = '#3c3c41';
+//     e.target.style.color = 'white';
+//     mode = e.target.innerText;
+// });
+
+let buttons = document.querySelectorAll('button');
+buttons.forEach(button => {
+    button.addEventListener('click', (e) => {
+            // Make sure all of the buttons are reset 
+            
+
+
+
+            // Make sure the mode current mode is correct
+            if (e.target.innerText != document.querySelector('.clear-btn').innerText) {
+                mode = e.target.innerText;
+                // Change the aesthetic of the selected button
+                e.target.style.backgroundColor = '#3c3c41';
+                e.target.style.color = 'white';
+
+                buttons.forEach(button => {
+                    button.style.backgroundColor = 'white';
+                    button.style.color = '#3c3c41';
+                });
+            } else {
+                clear();
+            }
+            
+
+
+            // // Clear out all of the pixels in the etch-a-sketch
+            // if (e.target.innerText !== document.querySelector('.eraser-btn').innerText) {
+            //     clear(document.querySelector('.sketch-container'));
+            // }
+        });
+});
+
 const sketchContainer = document.querySelector('.sketch-container');
 sketchContainer.addEventListener('mousedown', start);
 
