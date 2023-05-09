@@ -26,27 +26,27 @@ function populateSketchContainer(value) {
     }
 }
 
-function mark(event) {
-    // if (mode == 'Regular Mode') {
-    //     event.target.style.backgroundColor = '#3c3c41';
-    // }
+// function mark(event) {
+//     // if (mode == 'Regular Mode') {
+//     //     event.target.style.backgroundColor = '#3c3c41';
+//     // }
     
-    event.target.style.backgroundColor = '#3c3c41';
-}
+//     event.target.style.backgroundColor = '#3c3c41';
+// }
 
-function startDrawing(mode) {
-    let pixels = document.querySelectorAll('.pixel');
-    pixels.forEach(pixel => {
-        pixel.addEventListener('mouseover', mark);
-    });
-}
+// function startDrawing(mode) {
+//     let pixels = document.querySelectorAll('.pixel');
+//     pixels.forEach(pixel => {
+//         pixel.addEventListener('mouseover', mark);
+//     });
+// }
 
-function stopDrawing(mode) {
-    let pixels = document.querySelectorAll('.pixel');
-    pixels.forEach(pixel => {
-        pixel.removeEventListener('mouseover', mark);
-    });
-}
+// function stopDrawing(mode) {
+//     let pixels = document.querySelectorAll('.pixel');
+//     pixels.forEach(pixel => {
+//         pixel.removeEventListener('mouseover', mark);
+//     });
+// }
 
 
 
@@ -65,12 +65,39 @@ document.querySelector(".slider").oninput = function() {
     populateSketchContainer(value);
 };
 
-let mode = 'Regular Mode';
-// Allow / disallow drawing
-document.body.onmousedown = () => (startDrawing(mode));
-document.body.onmouseup = () => (stopDrawing(mode));
+// let mode = 'Regular Mode';
+// // Allow / disallow drawing
+// document.body.onmousedown = () => (startDrawing(mode));
+// document.body.onmouseup = () => (stopDrawing(mode));
 
+function mark(e) {
+    if (mode == 'Regular Mode') {
+        e.target.style.backgroundColor = '#3c3c41';
+    } else if (mode == 'Brush Mode') {
+        e.target.style.backgroundColor = '#3c3c41';
+        e.target.style.opacity = '0.3';
+    }
+}
 
+function start() {
+    let pixels = document.querySelectorAll('.pixel');
+    pixels.forEach(pixel => {
+        pixel.addEventListener('mouseover', mark);
+    });
+}
+
+function stop () {
+    let pixels = document.querySelectorAll('.pixel');
+    pixels.forEach(pixel => {
+        pixel.removeEventListener('mouseover', mark);
+    });
+}
+
+let mode = 'Brush Mode';
+const sketchContainer = document.querySelector('.sketch-container');
+sketchContainer.addEventListener('mousedown', start);
+
+sketchContainer.addEventListener('mouseup', stop);
 
 
 
