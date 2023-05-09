@@ -1,10 +1,17 @@
-// Helper function to remove the nodes inside of a div
+// GLOBALS
+let mode = 'Regular Mode';
+
+// ---------------------------------------------------------------------------
+
 function removeAllChildNodes(parent) {
+    // Helper function to remove the nodes inside of a div
+
     parent.innerHTML = '';
 }
 
-// Adds the proper number of "pixel" divs based on a value
 function populateSketchContainer(value) {
+    // Adds the proper number of "pixels" to the etch-a-sketch.
+
     const sketchContainer = document.querySelector(".sketch-container");
     removeAllChildNodes(sketchContainer);
 
@@ -24,55 +31,15 @@ function populateSketchContainer(value) {
     }
 }
 
-// function mark(event) {
-//     // if (mode == 'Regular Mode') {
-//     //     event.target.style.backgroundColor = '#3c3c41';
-//     // }
-    
-//     event.target.style.backgroundColor = '#3c3c41';
-// }
-
-// function startDrawing(mode) {
-//     let pixels = document.querySelectorAll('.pixel');
-//     pixels.forEach(pixel => {
-//         pixel.addEventListener('mouseover', mark);
-//     });
-// }
-
-// function stopDrawing(mode) {
-//     let pixels = document.querySelectorAll('.pixel');
-//     pixels.forEach(pixel => {
-//         pixel.removeEventListener('mouseover', mark);
-//     });
-// }
-
-
-
-
-// Make sure the page loads with "pixels" in the Etch-a-Sketch
-populateSketchContainer(document.querySelector('.slider').value)
-
-// Slider
-document.querySelector(".slider").oninput = function() {
-    let value = (this.value-this.min)/(this.max-this.min)*100;
-    this.style.background = 'linear-gradient(to right, #3c3c41 0%, #3c3c41 ' + value + '%, #fff ' + value + '%, white 100%)';
-
-    value = (value > 1) ? Math.ceil(value) : 1;
-    document.querySelector(".slider-label").innerText = `${value} x ${value}`;
-
-    populateSketchContainer(value);
-};
-
-// let mode = 'Regular Mode';
-// // Allow / disallow drawing
-// document.body.onmousedown = () => (startDrawing(mode));
-// document.body.onmouseup = () => (stopDrawing(mode));
-
 function getRandomNumber(Max) {
+    // Supply a random number.
+
     return Math.floor(Math.random() * Max);
 }
 
 function getRandomColor() {
+    // Supply a random rgb value.
+
     const r = getRandomNumber(255)
     const g = getRandomNumber(255)
     const b = getRandomNumber(255)
@@ -81,6 +48,8 @@ function getRandomColor() {
 }
 
 function mark(e) {
+    // Callback to set the mark type of the etch-a-sketch on mouseover.
+
     if (mode == document.querySelector('.regular-btn').innerText) {
         e.target.style.backgroundColor = '#3c3c41';
         e.target.style.opacity = '1';
@@ -96,14 +65,18 @@ function mark(e) {
     } 
 }
 
-function start() {
+function startDrawing() {
+    // Callback to enable marking on the etch-a-sketch on click
+
     let pixels = document.querySelectorAll('.pixel');
     pixels.forEach(pixel => {
         pixel.addEventListener('mouseover', mark);
     });
 }
 
-function stop () {
+function stopDrawing() {
+    // Callback to disable marking on the etch-a-sketch on click-release
+
     let pixels = document.querySelectorAll('.pixel');
     pixels.forEach(pixel => {
         pixel.removeEventListener('mouseover', mark);
@@ -111,6 +84,8 @@ function stop () {
 }
 
 function clear() {
+    // Set all etch-a-sketch pixels to be blank.
+
     let pixels = document.querySelectorAll('.pixel');
     pixels.forEach(pixel => {
         pixel.style.backgroundColor = 'white';
@@ -118,66 +93,72 @@ function clear() {
     });
 }
 
-// Default to regular mode
-let mode = 'Regular Mode';
-const regularBtn = document.querySelector(".regular-btn")
-regularBtn.style.backgroundColor = '#3c3c41';
-regularBtn.style.color = 'white';
+function emphasizeButton(e) {
+    e.target.style.backgroundColor = '#3c3c41';
+    e.target.style.color = 'white';
+}
 
-// const regularBtn = document.querySelector(".regular-btn");
-// const brushBtn = document.querySelector(".brush-btn");
-// const stickerBtn = document.querySelector(".sticker-btn");
-// const eraserBtn = document.querySelector(".eraser-btn");
-// const clearBtn = document.querySelector(".clear-btn");
+function deEmphasizeButton(e) {
+    if (mode != e.target.innerText) {
+        e.target.style.backgroundColor = 'white';
+        e.target.style.color = '#3c3c41';
+    }
+}
 
-// regularBtn.addEventListener('click', (e) => {
-//     let buttons = document.querySelectorAll('button');
-//     buttons.forEach(button => {
-//         button.style.backgroundColor = 'white';
-//     })
-//     e.target.style.backgroundColor = '#3c3c41';
-//     e.target.style.color = 'white';
-//     mode = e.target.innerText;
-// });
+function main() {
+    // Make sure the page loads with "pixels" in the Etch-a-Sketch
+    populateSketchContainer(document.querySelector('.slider').value)
 
-let buttons = document.querySelectorAll('button');
-buttons.forEach(button => {
-    button.addEventListener('click', (e) => {
-            // Make sure all of the buttons are reset 
-            
+    // Slider (REFACTOR THIS CODE)
+    document.querySelector(".slider").oninput = function() {
+        let value = (this.value-this.min)/(this.max-this.min)*100;
+        this.style.background = 'linear-gradient(to right, #3c3c41 0%, #3c3c41 ' + value + '%, #fff ' + value + '%, white 100%)';
 
+        value = (value > 1) ? Math.ceil(value) : 1;
+        document.querySelector(".slider-label").innerText = `${value} x ${value}`;
 
-
-            // Make sure the mode current mode is correct
-            if (e.target.innerText != document.querySelector('.clear-btn').innerText) {
-                mode = e.target.innerText;
-                // Change the aesthetic of the selected button
-                e.target.style.backgroundColor = '#3c3c41';
-                e.target.style.color = 'white';
-
-                buttons.forEach(button => {
-                    button.style.backgroundColor = 'white';
-                    button.style.color = '#3c3c41';
-                });
-            } else {
-                clear();
-            }
-            
-
-
-            // // Clear out all of the pixels in the etch-a-sketch
-            // if (e.target.innerText !== document.querySelector('.eraser-btn').innerText) {
-            //     clear(document.querySelector('.sketch-container'));
-            // }
-        });
-});
-
-const sketchContainer = document.querySelector('.sketch-container');
-sketchContainer.addEventListener('mousedown', start);
-
-sketchContainer.addEventListener('mouseup', stop);
+        populateSketchContainer(value);
+    };
 
 
 
-// TODO pass a parameter into mark() that sets the specific type of mark to use.
-// TODO clean up the code and use a main function.
+    const regularBtn = document.querySelector(".regular-btn")
+    regularBtn.style.backgroundColor = '#3c3c41';
+    regularBtn.style.color = 'white';
+
+
+    let buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('click', (e) => {
+
+
+                // Make sure the mode current mode is correct
+                if (e.target.innerText != document.querySelector('.clear-btn').innerText) {
+                    mode = e.target.innerText;
+                                // Make sure all of the buttons are reset 
+                    buttons.forEach(button => {
+                        button.style.backgroundColor = 'white';
+                        button.style.color = '#3c3c41';
+                    })
+
+                    // Change the aesthetic of the selected button
+                    e.target.style.backgroundColor = '#3c3c41';
+                    e.target.style.color = 'white';
+                } else {
+                    clear();
+                }
+            });
+        button.addEventListener('mouseover', emphasizeButton)
+        button.addEventListener('mouseout', deEmphasizeButton)
+    });
+
+
+
+    const sketchContainer = document.querySelector('.sketch-container');
+    sketchContainer.addEventListener('mousedown', startDrawing);
+
+    sketchContainer.addEventListener('mouseup', stopDrawing);
+}
+
+main();
+
