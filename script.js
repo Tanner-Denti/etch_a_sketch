@@ -1,17 +1,18 @@
-// GLOBALS
+// ---------------------------------------------- Globals ----------------------------------------------
 let mode = 'Regular Mode';
 
-// ---------------------------------------------------------------------------
+// ---------------------------------------- Function Definitions ---------------------------------------
 
 function removeAllChildNodes(parent) {
-    // Helper function to remove the nodes inside of a div
+    // Helper function to remove the nodes inside of a div.
 
     parent.innerHTML = '';
 }
 
-function populateSketchContainer(value) {
+function populateSketchContainer() {
     // Adds the proper number of "pixels" to the etch-a-sketch.
 
+    const value = document.querySelector('.slider').value
     const sketchContainer = document.querySelector(".sketch-container");
     removeAllChildNodes(sketchContainer);
 
@@ -29,6 +30,28 @@ function populateSketchContainer(value) {
             sketchContainer.appendChild(pixel);
         }
     }
+}
+
+function adjustSliderGradient(e) {
+    // Callback to adjust the slider color on input.
+
+    const slider = e.target;
+
+    const sliderValue = slider.value;
+    const sliderMin = slider.min;
+    const sliderMax = slider.max;
+
+    const gradientValue = (sliderValue-sliderMin)/(sliderMax-sliderMin)*100;
+    slider.style.background = 'linear-gradient(to right, #3c3c41 0%, #3c3c41 ' + gradientValue + '%, #fff ' + gradientValue + '%, white 100%)';
+}
+
+function adjustSliderText(e) {
+    // Callback to adjust the slider text on input.
+
+    const sliderValue = e.target.value;
+    const sliderLabel = document.querySelector('.slider-label');
+
+    sliderLabel.innerText = `${sliderValue} x ${sliderValue}`;
 }
 
 function getRandomNumber(Max) {
@@ -50,23 +73,25 @@ function getRandomColor() {
 function mark(e) {
     // Callback to set the mark type of the etch-a-sketch on mouseover.
 
+    const pixel = e.target;
+
     if (mode == document.querySelector('.regular-btn').innerText) {
-        e.target.style.backgroundColor = '#3c3c41';
-        e.target.style.opacity = '1';
+        pixel.style.backgroundColor = '#3c3c41';
+        pixel.style.opacity = '1';
     } else if (mode == document.querySelector('.brush-btn').innerText) {
-        e.target.style.backgroundColor = '#3c3c41';
-        e.target.style.opacity = '0.1';
+        pixel.style.backgroundColor = '#3c3c41';
+        pixel.style.opacity = '0.1';
     } else if (mode == document.querySelector('.color-btn').innerText) {
-        e.target.style.backgroundColor = getRandomColor();
-        e.target.style.opacity = '1';
+        pixel.style.backgroundColor = getRandomColor();
+        pixel.style.opacity = '1';
     } else if (mode == document.querySelector('.eraser-btn').innerText) {
-        e.target.style.backgroundColor = 'white';
-        e.target.style.opacity = '1';
+        pixel.style.backgroundColor = 'white';
+        pixel.style.opacity = '1';
     } 
 }
 
 function startDrawing() {
-    // Callback to enable marking on the etch-a-sketch on click
+    // Callback to enable marking on the etch-a-sketch on click.
 
     let pixels = document.querySelectorAll('.pixel');
     pixels.forEach(pixel => {
@@ -75,7 +100,7 @@ function startDrawing() {
 }
 
 function stopDrawing() {
-    // Callback to disable marking on the etch-a-sketch on click-release
+    // Callback to disable marking on the etch-a-sketch on click-release.
 
     let pixels = document.querySelectorAll('.pixel');
     pixels.forEach(pixel => {
@@ -94,71 +119,96 @@ function clear() {
 }
 
 function emphasizeButton(e) {
+    // Callback to engage a hover effect.
+
     e.target.style.backgroundColor = '#3c3c41';
     e.target.style.color = 'white';
 }
 
 function deEmphasizeButton(e) {
+    // Callback to disengage a hover effect.
+
     if (mode != e.target.innerText) {
         e.target.style.backgroundColor = 'white';
         e.target.style.color = '#3c3c41';
     }
 }
 
+function setModeVariable(button) {
+    // Update the current mode on click.
+    
+    const buttonText = button.innerText;
+
+    // GLobal
+    mode = buttonText;
+}
+
+function resetButtons() {
+    // Refresh buttons back to original aesthetic on click.
+
+    const buttons = document.querySelectorAll('button');
+
+    buttons.forEach(button => {
+        button.style.backgroundColor = 'white';
+        button.style.color = '#3c3c41';
+    })
+}
+
+function updateButton(button) {
+    // Update the aesthetic of a button on click.
+
+    button.style.backgroundColor = '#3c3c41';
+    button.style.color = 'white';
+}
+
+function setGameMode(e) {
+    // Change to the correct drawing mode and reflect the change visually through the buttons.
+
+    const button = e.target;
+    const clearButton = document.querySelector('.clear-btn');
+
+    if (button.innerText != clearButton.innerText) {
+        setModeVariable(button);
+        resetButtons();
+        updateButton(button);
+    } else {
+        clear();
+    }
+}
+
 function main() {
-    // Make sure the page loads with "pixels" in the Etch-a-Sketch
-    populateSketchContainer(document.querySelector('.slider').value)
+    // Declare constants.
+    const slider = document.querySelector('.slider');
+    const regularBtn = document.querySelector(".regular-btn");
+    const sketchContainer = document.querySelector('.sketch-container');
+    const buttons = document.querySelectorAll('button');
+   
+    // Load page with "pixels" in the Etch-a-Sketch.
+    populateSketchContainer(slider.value);
 
-    // Slider (REFACTOR THIS CODE)
-    document.querySelector(".slider").oninput = function() {
-        let value = (this.value-this.min)/(this.max-this.min)*100;
-        this.style.background = 'linear-gradient(to right, #3c3c41 0%, #3c3c41 ' + value + '%, #fff ' + value + '%, white 100%)';
-
-        value = (value > 1) ? Math.ceil(value) : 1;
-        document.querySelector(".slider-label").innerText = `${value} x ${value}`;
-
-        populateSketchContainer(value);
-    };
-
-
-
-    const regularBtn = document.querySelector(".regular-btn")
+    // Load page with 'Regular Mode' button pressed.
     regularBtn.style.backgroundColor = '#3c3c41';
     regularBtn.style.color = 'white';
 
+    // Update the gradient, slider label, and number of pixels in the etch-a-sketch, on slider input.
+    slider.addEventListener('input', adjustSliderGradient);
+    slider.addEventListener('input', adjustSliderText);
+    slider.addEventListener('input', populateSketchContainer);
 
-    let buttons = document.querySelectorAll('button');
+    // Update drawing mode and button aesthetic on various inputs.
     buttons.forEach(button => {
-        button.addEventListener('click', (e) => {
-
-
-                // Make sure the mode current mode is correct
-                if (e.target.innerText != document.querySelector('.clear-btn').innerText) {
-                    mode = e.target.innerText;
-                                // Make sure all of the buttons are reset 
-                    buttons.forEach(button => {
-                        button.style.backgroundColor = 'white';
-                        button.style.color = '#3c3c41';
-                    })
-
-                    // Change the aesthetic of the selected button
-                    e.target.style.backgroundColor = '#3c3c41';
-                    e.target.style.color = 'white';
-                } else {
-                    clear();
-                }
-            });
-        button.addEventListener('mouseover', emphasizeButton)
-        button.addEventListener('mouseout', deEmphasizeButton)
+        button.addEventListener('click', setGameMode);
+        button.addEventListener('mouseover', emphasizeButton);
+        button.addEventListener('mouseout', deEmphasizeButton);
     });
 
-
-
-    const sketchContainer = document.querySelector('.sketch-container');
+    // Start drawing on left click.
     sketchContainer.addEventListener('mousedown', startDrawing);
-
+    // Stop drawing on left click-release.
     sketchContainer.addEventListener('mouseup', stopDrawing);
 }
+
+// ------------------------------------------- Program Entry -------------------------------------------
 
 main();
 
