@@ -1,5 +1,6 @@
 // ---------------------------------------------- Globals ----------------------------------------------
 let mode = 'Regular Mode';
+const startingOpacity = '0.0';
 
 // ---------------------------------------- Function Definitions ---------------------------------------
 
@@ -26,6 +27,7 @@ function populateSketchContainer() {
             pixel.style.height = `${500/value}px`;
             pixel.style.boxSizing = 'border-box';
             pixel.style.backgroundColor = 'white';
+            pixel.style.opacity = startingOpacity;
             
             sketchContainer.appendChild(pixel);
         }
@@ -76,17 +78,26 @@ function mark(e) {
     const pixel = e.target;
 
     if (mode == document.querySelector('.regular-btn').innerText) {
-        pixel.style.backgroundColor = '#3c3c41';
         pixel.style.opacity = '1';
-    } else if (mode == document.querySelector('.brush-btn').innerText) {
         pixel.style.backgroundColor = '#3c3c41';
-        pixel.style.opacity = '0.1';
+    } else if (mode == document.querySelector('.brush-btn').innerText) { 
+        if (parseFloat(pixel.style.opacity) < 1) {
+            // Add to the opacity to give a brush stroke effect.
+            let opacity = parseFloat(pixel.style.opacity);
+            opacity += 0.20;
+            pixel.style.opacity = `${opacity}`;
+        } else if (parseFloat(pixel.style.opacity) == 1 && pixel.style.backgroundColor != 'rgb(60, 60, 65)') {
+            // When the color doesn't match our brush, override it and reset opacity. 
+            pixel.style.opacity = startingOpacity;
+            pixel.style.backgroundColor = '#3c3c41'
+        }
+        pixel.style.backgroundColor = '#3c3c41';
     } else if (mode == document.querySelector('.color-btn').innerText) {
+        pixel.style.opacity = '1';
         pixel.style.backgroundColor = getRandomColor();
-        pixel.style.opacity = '1';
     } else if (mode == document.querySelector('.eraser-btn').innerText) {
-        pixel.style.backgroundColor = 'white';
         pixel.style.opacity = '1';
+        pixel.style.backgroundColor = 'white';
     } 
 }
 
@@ -114,7 +125,7 @@ function clear() {
     let pixels = document.querySelectorAll('.pixel');
     pixels.forEach(pixel => {
         pixel.style.backgroundColor = 'white';
-        pixel.style.opacity = '1';
+        pixel.style.opacity = startingOpacity;
     });
 }
 
