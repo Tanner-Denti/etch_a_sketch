@@ -31,13 +31,14 @@ h1 {
 
 .options-container {
     margin-top: 30px;
-    margin-left: 50px;
+    margin-left: 40px;
     padding: 0;
     text-align: center;
 }
 
 img {
-    height: 250px;
+    height: 325px;
+    margin-bottom: -50px;
 }
 
 ul {
@@ -107,20 +108,30 @@ input[type='range']::-webkit-slider-thumb {
 footer {
     margin-top: auto;
     align-self: center;
-}
-
-footer {
     color: #3c3c41;
     font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-footer > a {
+footer > div {
+    display: flex;
+}
+
+footer > div > a {
     color: #3c3c41;
 }
 
-.test {
-    background-color: red;
-    height: 30px;
-    border-style: solid;
+footer > div > p {
+    margin:0;
+    padding:0;
+}
 
+footer > div > p > a {
+    color: #3c3c41;
+}
+
+.copyright {
+    margin-top: 10px;
 }
