@@ -77,7 +77,7 @@ function mark(e) {
     const pixel = e.target;
     const mode = getMode();
 
-    if (mode == document.querySelector('.regular-btn').innerText) {
+    if (mode == document.querySelector('.dark-btn').innerText) {
         pixel.style.opacity = '1';
         pixel.style.backgroundColor = '#3c3c41';
     } else if (mode == document.querySelector('.brush-btn').innerText) { 
@@ -92,7 +92,7 @@ function mark(e) {
             pixel.style.backgroundColor = '#3c3c41'
         }
         pixel.style.backgroundColor = '#3c3c41';
-    } else if (mode == document.querySelector('.color-btn').innerText) {
+    } else if (mode == document.querySelector('.rainbow-btn').innerText) {
         pixel.style.opacity = '1';
         pixel.style.backgroundColor = getRandomColor();
     } else if (mode == document.querySelector('.eraser-btn').innerText) {
@@ -192,17 +192,17 @@ function getMode() {
 function main() {
     // Declare constants.
     const slider = document.querySelector('.slider');
-    const regularBtn = document.querySelector(".regular-btn");
+    const darkBtn = document.querySelector(".dark-btn");
     const sketchContainer = document.querySelector('.sketch-container');
     const buttons = document.querySelectorAll('button');
    
     // Load page with "pixels" in the Etch-a-Sketch.
     populateSketchContainer(slider.value);
 
-    // Load page with 'Regular Mode' button pressed.
-    regularBtn.style.backgroundColor = '#3c3c41';
-    regularBtn.style.color = 'white';
-    regularBtn.classList.add('current-mode');
+    // Load page with 'Dark Mode' button pressed.
+    darkBtn.style.backgroundColor = '#3c3c41';
+    darkBtn.style.color = 'white';
+    darkBtn.classList.add('current-mode');
 
     // Update the gradient, slider label, and number of pixels in the etch-a-sketch, on slider input.
     slider.addEventListener('input', adjustSliderGradient);
