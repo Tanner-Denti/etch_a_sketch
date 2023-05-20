@@ -1,5 +1,4 @@
-// ---------------------------------------------- Globals ----------------------------------------------
-let mode = 'Regular Mode';
+// ---------------------------------------------- Constants ----------------------------------------------
 const startingOpacity = '0.0';
 
 // ---------------------------------------- Function Definitions ---------------------------------------
@@ -76,6 +75,7 @@ function mark(e) {
     // Callback to set the mark type of the etch-a-sketch on mouseover.
 
     const pixel = e.target;
+    const mode = getMode();
 
     if (mode == document.querySelector('.regular-btn').innerText) {
         pixel.style.opacity = '1';
@@ -139,19 +139,10 @@ function emphasizeButton(e) {
 function deEmphasizeButton(e) {
     // Callback to disengage a hover effect.
 
-    if (mode != e.target.innerText) {
+    if (getMode() != e.target.innerText) {
         e.target.style.backgroundColor = 'white';
         e.target.style.color = '#3c3c41';
     }
-}
-
-function setModeVariable(button) {
-    // Update the current mode on click.
-    
-    const buttonText = button.innerText;
-
-    // GLobal
-    mode = buttonText;
 }
 
 function resetButtons() {
@@ -162,29 +153,40 @@ function resetButtons() {
     buttons.forEach(button => {
         button.style.backgroundColor = 'white';
         button.style.color = '#3c3c41';
+        if (button.classList.contains('current-mode')) {
+            button.classList.remove('current-mode');
+        }
     })
 }
 
 function updateButton(button) {
-    // Update the aesthetic of a button on click.
+    // Update the aesthetic and class list of a button on click.
 
     button.style.backgroundColor = '#3c3c41';
     button.style.color = 'white';
+    button.classList.add('current-mode');
 }
 
-function setGameMode(e) {
+function setMode(e) {
     // Change to the correct drawing mode and reflect the change visually through the buttons.
 
     const button = e.target;
     const clearButton = document.querySelector('.clear-btn');
 
     if (button.innerText != clearButton.innerText) {
-        setModeVariable(button);
         resetButtons();
         updateButton(button);
     } else {
         clear();
     }
+}
+
+function getMode() {
+    // Locate the button with the current-mode class, return its text.
+
+    const buttons = Array.from(document.querySelectorAll('button'));
+    const mode = buttons.filter(button => button.classList.contains('current-mode'))[0].innerText;
+    return mode;
 }
 
 function main() {
@@ -200,6 +202,7 @@ function main() {
     // Load page with 'Regular Mode' button pressed.
     regularBtn.style.backgroundColor = '#3c3c41';
     regularBtn.style.color = 'white';
+    regularBtn.classList.add('current-mode');
 
     // Update the gradient, slider label, and number of pixels in the etch-a-sketch, on slider input.
     slider.addEventListener('input', adjustSliderGradient);
@@ -208,7 +211,7 @@ function main() {
 
     // Update drawing mode and button aesthetic on various inputs.
     buttons.forEach(button => {
-        button.addEventListener('click', setGameMode);
+        button.addEventListener('click', setMode);
         button.addEventListener('mouseover', emphasizeButton);
         button.addEventListener('mouseout', deEmphasizeButton);
     });
